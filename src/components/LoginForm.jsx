@@ -5,11 +5,11 @@ const LoginForm = ({ existingUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  async function handleSubmit(event) {
+  async function handleLogin(event) {
     event.preventDefault()
 
     try {
-      await FirebaseAuthService.registerUser(
+      await FirebaseAuthService.loginUser(
         username,
         password,
       )
@@ -51,7 +51,7 @@ const LoginForm = ({ existingUser }) => {
         </div>
       ) : (
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
           className='login-form'
         >
           <label className='input-label login-label'>
@@ -75,7 +75,7 @@ const LoginForm = ({ existingUser }) => {
             />
           </label>
           <div className="button-box">
-            <button className="primary-button">Submit</button>
+            <button className="primary-button">Login</button>
             <button className="primary-button" onClick={handleSendResetPasswordEmail}>Reset Password</button>
             </div>
         </form>
