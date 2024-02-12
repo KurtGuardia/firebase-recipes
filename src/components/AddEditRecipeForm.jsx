@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 function AddEditRecipeForm({
   existingRecipe,
   handleAddRecipe,
+  handleDeleteRecipe,
   handleUpdateRecipe,
   handleEditRecipeCancel,
 }) {
@@ -13,7 +14,6 @@ function AddEditRecipeForm({
   )
   const [directions, setDirections] = useState('')
   const [ingredients, setIngredients] = useState([])
-  console.log("🚀 ~ ingredients:", ingredients)
   const [ingredientName, setIngredientName] = useState('')
 
   useEffect(() => {
@@ -239,6 +239,13 @@ function AddEditRecipeForm({
               className='primary-button action-button'
             >
               Cancel
+            </button>
+            <button
+              type='button'
+              onClick={() => handleDeleteRecipe(existingRecipe.id)}
+              className='primary-button action-button'
+            >
+              Delete
             </button>
           </>
         ) : null}

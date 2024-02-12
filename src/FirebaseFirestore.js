@@ -11,7 +11,7 @@ const readDocuments = ({ collection, queries }) => {
 
   if (queries && queries.length > 0) {
     for (const query of queries) {
-    //   debugger
+      //   debugger
       collectionRef = collectionRef.where(
         query.field,
         query.condition,
@@ -23,14 +23,22 @@ const readDocuments = ({ collection, queries }) => {
   return collectionRef.get()
 }
 
-const updateDocuemnt = (collection, id, document ) => {
-    return firestore.collection(collection).doc(id).update(document);
+const updateDocuemnt = (collection, id, document) => {
+  return firestore
+    .collection(collection)
+    .doc(id)
+    .update(document)
+}
+
+const deleteDocument = (collection, id) => {
+  return firestore.collection(collection).doc(id).delete()
 }
 
 const FirebaseFirestoreService = {
   createDocument,
   readDocuments,
-  updateDocuemnt
+  updateDocuemnt,
+  deleteDocument
 }
 
 export default FirebaseFirestoreService
