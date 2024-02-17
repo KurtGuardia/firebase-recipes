@@ -1,6 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-function AddEditRecipeForm({ handleAddRecipe }) {
+function AddEditRecipeForm({
+  existingRecipe,
+  handleAddRecipe,
+  handleUpdateRecipe,
+  handleEditRecipeCancel,
+}) {
   const [name, setName] = useState('')
   const [category, setCategory] = useState('')
   const [publishDate, setPublishDate] = useState(
@@ -8,7 +13,24 @@ function AddEditRecipeForm({ handleAddRecipe }) {
   )
   const [directions, setDirections] = useState('')
   const [ingredients, setIngredients] = useState([])
+  console.log("🚀 ~ ingredients:", ingredients)
   const [ingredientName, setIngredientName] = useState('')
+
+  useEffect(() => {
+    if (existingRecipe) {
+      setName(existingRecipe.name)
+      setCategory(existingRecipe.category)
+      setDirections(existingRecipe.directions)
+      setPublishDate(
+        existingRecipe.publishDate
+          .toISOString()
+          .split('T')[0],
+      )
+      setIngredients(existingRecipe.ingredients)
+    } else {
+      resetForm()
+    }
+  }, [existingRecipe])
 
   function handleRecipeFormSubmit(e) {
     e.preventDefault()
@@ -32,7 +54,11 @@ function AddEditRecipeForm({ handleAddRecipe }) {
       ingredients,
     }
 
-    handleAddRecipe(newRecipe)
+    if (existingRecipe) {
+      handleUpdateRecipe(newRecipe, existingRecipe.id)
+    } else {
+      handleAddRecipe(newRecipe)
+    }
   }
 
   function handleAddIngredient(e) {
@@ -53,12 +79,32 @@ function AddEditRecipeForm({ handleAddRecipe }) {
     setIngredientName('')
   }
 
+  function handleDeleteIngredient(ingredientName) {
+    const remainingIngredients = ingredients.filter((ingredient) => {
+      return ingredient !== ingredientName;
+    });
+
+    setIngredients(remainingIngredients);
+  }
+
+  function resetForm() {
+    setName('')
+    setCategory('')
+    setDirections('')
+    setPublishDate('')
+    setIngredients([])
+  }
+
   return (
     <form
       className='add-edit-recipe-form-container'
       onSubmit={handleRecipeFormSubmit}
     >
-      <h2>Add a New Recipe</h2>
+      {existingRecipe ? (
+        <h2>Update the Recipe</h2>
+      ) : (
+        <h2>Add a New Recipe</h2>
+      )}
       <div className='top-form-section'>
         <div className='fileds'>
           <label className='recipe-label input-label'>
@@ -138,7 +184,7 @@ function AddEditRecipeForm({ handleAddRecipe }) {
                         {ingredient}
                       </td>
                       <td className='ingredient-delete-box'>
-                        <button className='secondary-button ingredient-delete-button'>
+                        <button type='button' className='secondary-button ingredient-delete-button' onClick={() => handleDeleteIngredient(ingredient)}>
                           Delete
                         </button>
                       </td>
@@ -181,8 +227,21 @@ function AddEditRecipeForm({ handleAddRecipe }) {
           type='submit'
           className='primary-button action-button'
         >
-          Create Recipe
+          {existingRecipe
+            ? 'Update Recipe'
+            : 'Create Recipe'}
         </button>
+        {existingRecipe ? (
+          <>
+            <button
+              type='button'
+              onClick={handleEditRecipeCancel}
+              className='primary-button action-button'
+            >
+              Cancel
+            </button>
+          </>
+        ) : null}
       </div>
     </form>
   )
