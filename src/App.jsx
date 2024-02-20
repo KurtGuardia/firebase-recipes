@@ -28,6 +28,7 @@ function App() {
       .finally(() => {
         setIsLoading(false)
       })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, categoryFilter, orderBy, recipesPerPage])
 
   FirebaseAuthService.subscribeToAuthChanges(setUser)
@@ -322,6 +323,9 @@ function App() {
                       ) : null}
                       <div className='recipe-name'>
                         {recipe.name}
+                      </div>
+                      <div className="recipe-image-box">
+                        {recipe.imageUrl && <img src={recipe.imageUrl} alt={recipe.name} className="recipe-image" /> }
                       </div>
                       <div className='recipe-field'>
                         Category:{' '}

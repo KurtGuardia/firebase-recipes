@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import ImageUploadPreview from './ImageUploadPreview'
 
 function AddEditRecipeForm({
   existingRecipe,
@@ -15,6 +16,7 @@ function AddEditRecipeForm({
   const [directions, setDirections] = useState('')
   const [ingredients, setIngredients] = useState([])
   const [ingredientName, setIngredientName] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
 
   useEffect(() => {
     if (existingRecipe) {
@@ -27,6 +29,7 @@ function AddEditRecipeForm({
           .split('T')[0],
       )
       setIngredients(existingRecipe.ingredients)
+      setImageUrl(existingRecipe.imageUrl)
     } else {
       resetForm()
     }
@@ -42,6 +45,13 @@ function AddEditRecipeForm({
       return
     }
 
+    if (!imageUrl) {
+      alert(
+        'Missing recipe image. Please add a recipe image.',
+      )
+      return
+    }
+
     const isPublished =
       new Date(publishDate) <= new Date() ? true : false
 
@@ -52,6 +62,7 @@ function AddEditRecipeForm({
       publishDate: new Date(publishDate),
       isPublished,
       ingredients,
+      imageUrl,
     }
 
     if (existingRecipe) {
@@ -80,11 +91,13 @@ function AddEditRecipeForm({
   }
 
   function handleDeleteIngredient(ingredientName) {
-    const remainingIngredients = ingredients.filter((ingredient) => {
-      return ingredient !== ingredientName;
-    });
+    const remainingIngredients = ingredients.filter(
+      (ingredient) => {
+        return ingredient !== ingredientName
+      },
+    )
 
-    setIngredients(remainingIngredients);
+    setIngredients(remainingIngredients)
   }
 
   function resetForm() {
@@ -93,6 +106,7 @@ function AddEditRecipeForm({
     setDirections('')
     setPublishDate('')
     setIngredients([])
+    setImageUrl('')
   }
 
   return (
@@ -106,6 +120,17 @@ function AddEditRecipeForm({
         <h2>Add a New Recipe</h2>
       )}
       <div className='top-form-section'>
+        <div className='image-input-box'>
+          Reipe Image
+          <ImageUploadPreview
+            basePath='recipes'
+            existingImageUrl={imageUrl}
+            handleUploadFinish={(downloadUrl) =>
+              setImageUrl(downloadUrl)
+            }
+            handleUploadCancel={() => setImageUrl('')}
+          ></ImageUploadPreview>
+        </div>
         <div className='fileds'>
           <label className='recipe-label input-label'>
             Recipe Name:
@@ -184,7 +209,15 @@ function AddEditRecipeForm({
                         {ingredient}
                       </td>
                       <td className='ingredient-delete-box'>
-                        <button type='button' className='secondary-button ingredient-delete-button' onClick={() => handleDeleteIngredient(ingredient)}>
+                        <button
+                          type='button'
+                          className='secondary-button ingredient-delete-button'
+                          onClick={() =>
+                            handleDeleteIngredient(
+                              ingredient,
+                            )
+                          }
+                        >
                           Delete
                         </button>
                       </td>
@@ -242,7 +275,9 @@ function AddEditRecipeForm({
             </button>
             <button
               type='button'
-              onClick={() => handleDeleteRecipe(existingRecipe.id)}
+              onClick={() =>
+                handleDeleteRecipe(existingRecipe.id)
+              }
               className='primary-button action-button'
             >
               Delete
