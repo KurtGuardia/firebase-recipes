@@ -70,6 +70,8 @@ function AddEditRecipeForm({
     } else {
       handleAddRecipe(newRecipe)
     }
+
+    resetForm();
   }
 
   function handleAddIngredient(e) {
