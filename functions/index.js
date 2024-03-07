@@ -105,3 +105,43 @@ exports.onDeleteRecipe = functions.firestore
       }
     }
   })
+
+exports.onUpdateRecipe = functions.firestore
+  .document('recipes/{recipeId}')
+  .onUpdate(async (changes) => {
+    const oldRecipe = changes.before.data()
+    const newRecipe = changes.after.data()
+
+    let publishCount = 0
+
+    if (!oldRecipe.isPublished && newRecipe.isPublished) {
+      publishCount += 1
+    } else if (
+      oldRecipe.isPublished &&
+      !newRecipe.isPublished
+    ) {
+      publishCount -= 1
+    }
+
+    const publishedCountDocRef = firestore
+      .collection('recipeCounts')
+      .doc('published')
+
+    const publishedCountDoc =
+      await publishedCountDocRef.get()
+
+    if (publishedCountDoc.exists) {
+      publishedCountDocRef.update({
+        count:
+          admin.firestore.FieldValue.increment(
+            publishCount,
+          ),
+      })
+    } else {
+      if (publishCount > 0) {
+        publishedCountDocRef.set({ count: publishCount })
+      } else {
+        publishedCountDocRef.set({ count: 0 })
+      }
+    }
+  })
