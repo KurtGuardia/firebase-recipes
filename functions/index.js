@@ -8,10 +8,13 @@
  */
 
 const FirebaseConfig = require('./FirebaseConfig')
+const recipesApi = require('./recipesApi')
 const functions = FirebaseConfig.functions
 const firestore = FirebaseConfig.firestore
 const storageBucket = FirebaseConfig.storageBucket
 const admin = FirebaseConfig.admin
+
+exports.api = functions.https.onRequest(recipesApi)
 
 exports.onCreateRecipe = functions.firestore
   .document('recipes/{recipeId}')
@@ -155,7 +158,7 @@ const runtimeOptions = {
 
 exports.dailyCheckRecipePublishDate = functions
   .runWith(runtimeOptions)
-  .pubsub.schedule('22 11 * * *')
+  .pubsub.schedule('0 0 * * *')
   .onRun(async () => {
     console.log(
       'dailyCheckRecipePublishDate() called - time to check',
@@ -187,4 +190,4 @@ exports.dailyCheckRecipePublishDate = functions
     })
   })
 
-  console.log("SERVER STARTED!")
+console.log('SERVER STARTED!')
