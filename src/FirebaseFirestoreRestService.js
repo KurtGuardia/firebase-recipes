@@ -1,48 +1,44 @@
-import firebase from './FirebaseConfig'
+import firebase from "./FirebaseConfig";
 
-const auth = firebase.auth()
+const auth = firebase.auth();
 
-const BASE_URL =
-  process.env.REACT_APP_CLOUD_FIRESTORE_FUNCTION_API_URL
+const BASE_URL = process.env.REACT_APP_CLOUD_FIRESTORE_FUNCTION_API_URL;
 
 const createDocument = async (collection, document) => {
-  let token
+  let token;
 
   try {
-    token = await auth.currentUser.getIdToken()
+    token = await auth.currentUser.getIdToken();
   } catch (error) {
-    alert(error.message)
-    throw error
+    alert(error.message);
+    throw error;
   }
 
   try {
-    const response = await fetch(
-      `${BASE_URL}/${collection}`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(document),
+    const response = await fetch(`${BASE_URL}/${collection}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-    )
+      body: JSON.stringify(document),
+    });
 
     if (response.status !== 201) {
-      const errorMessage = await response.text()
-      const error = { message: errorMessage }
+      const errorMessage = await response.text();
+      const error = { message: errorMessage };
 
-      throw error
+      throw error;
     }
 
-    return response.json()
+    return response.json();
   } catch (error) {
-    alert(error.message)
-    throw error
+    alert(error.message);
+    throw error;
   }
-}
+};
 
-const readDcoments = async ({
+const readDocuments = async ({
   collection,
   queries,
   orderByField,
@@ -51,136 +47,127 @@ const readDcoments = async ({
   pageNumber,
 }) => {
   try {
-    const url = new URL(`${BASE_URL}/${collection}`)
+    const url = new URL(`${BASE_URL}/${collection}`);
 
     for (const query of queries) {
-      url.searchParams.append(query.dield, query.value)
+      url.searchParams.append(query.field, query.value);
     }
 
     if (orderByField) {
-      url.searchParams.append('orderByField', orderByField)
+      url.searchParams.append("orderByField", orderByField);
     }
 
     if (orderByDirection) {
-      url.searchParams.append(
-        'orderByDirection',
-        orderByDirection,
-      )
+      url.searchParams.append("orderByDirection", orderByDirection);
     }
 
     if (perPage) {
-      url.searchParams.append('perPage', perPage)
+      url.searchParams.append("perPage", perPage);
     }
 
     if (pageNumber) {
-      url.searchParams.append('pageNumber', pageNumber)
+      url.searchParams.append("pageNumber", pageNumber);
     }
 
-    let token
+    let token;
 
     try {
-      token = await auth.currentUser.getIdToken()
+      token = await auth.currentUser.getIdToken();
     } catch (error) {
-      //continue
+      // continue.
     }
 
     const response = await fetch(url, {
-      methdo: 'GET',
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
+    });
 
     if (response.status !== 200) {
-      const errorMessage = await response.text()
-      const error = { message: errorMessage }
-      throw error
+      const errorMessage = await response.text();
+      const error = { message: errorMessage };
+
+      throw error;
     }
 
-    return response.json()
+    return response.json();
   } catch (error) {
-    alert(error.message)
-    throw error
+    alert(error.message);
+    throw error;
   }
-}
+};
 
-const updatedocument = async (collection, id, document) => {
-  let token
+const updateDocument = async (collection, id, document) => {
+  let token;
 
   try {
-    token = await auth.currentUser.getIdToken()
+    token = await auth.currentUser.getIdToken();
   } catch (error) {
-    alert(error.message)
-    throw error
+    alert(error.message);
+    throw error;
   }
 
   try {
-    const response = await fetch(
-      `${BASE_URL}/${collection}/${id}`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(document),
+    const response = await fetch(`${BASE_URL}/${collection}/${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-    )
+      body: JSON.stringify(document),
+    });
 
     if (response.status !== 200) {
-      const errorMessage = await response.text()
-      const error = { message: errorMessage }
+      const errorMessage = await response.text();
+      const error = { message: errorMessage };
 
-      throw error
+      throw error;
     }
 
-    return response.json()
+    return response.json();
   } catch (error) {
-    alert(error.message)
-    throw error
+    alert(error.message);
+    throw error;
   }
-}
+};
 
-const deletDocument = async (collection, id) => {
-  let token
+const deleteDocument = async (collection, id) => {
+  let token;
 
   try {
-    token = await auth.currentUser.getIdToken()
+    token = await auth.currentUser.getIdToken();
   } catch (error) {
-    alert(error.message)
-    throw error
+    alert(error.message);
+    throw error;
   }
 
   try {
-    const response = await fetch(
-      `${BASE_URL}/${collection}/${id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(document),
+    const response = await fetch(`${BASE_URL}/${collection}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-    )
+    });
 
     if (response.status !== 200) {
-      const errorMessage = await response.text()
-      const error = { message: errorMessage }
+      const errorMessage = await response.text();
+      const error = { message: errorMessage };
 
-      throw error
+      throw error;
     }
   } catch (error) {
-    alert(error.message)
-    throw error
+    alert(error.message);
+    throw error;
   }
-}
+};
 
 const FirebaseFirestoreRestService = {
   createDocument,
-  readDcoments,
-  updatedocument,
-  deletDocument,
-}
+  readDocuments,
+  updateDocument,
+  deleteDocument,
+};
 
-export default FirebaseFirestoreRestService
+export default FirebaseFirestoreRestService;

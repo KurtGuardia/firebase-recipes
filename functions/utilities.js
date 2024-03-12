@@ -1,89 +1,76 @@
-const authorizeUser = async (
-  authorizationHeader,
-  firebaseAuth,
-) => {
+const authorizeUser = async (authorizationHeader, firebaseAuth) => {
   if (!authorizationHeader) {
     // eslint-disable-next-line no-throw-literal
-    throw 'no authorization provided'
+    throw "no authorization provided!";
   }
 
-  const token = authorizationHeader.split(' ')[1]
+  const token = authorizationHeader.split(" ")[1];
 
   try {
-    const decodedToken = await firebaseAuth.verifyIdToken(
-      token,
-    )
+    const decodedToken = await firebaseAuth.verifyIdToken(token);
 
-    return decodedToken
+    return decodedToken;
   } catch (error) {
-    console.error(error.message)
-    throw error
+    throw error;
   }
-}
+};
 
 const validateRecipePostPut = (newRecipe) => {
-  let missingFileds = ''
+  let missingFields = "";
 
   if (!newRecipe) {
-    missingFileds += 'recipe'
-    return missingFileds
+    missingFields += "recipe";
+
+    return missingFields;
   }
 
   if (!newRecipe.name) {
-    missingFileds += 'name,'
+    missingFields += "name";
   }
 
   if (!newRecipe.category) {
-    missingFileds += 'category,'
+    missingFields += "category";
   }
 
   if (!newRecipe.directions) {
-    missingFileds += 'directions,'
+    missingFields += "directions";
   }
 
-  if (
-    !newRecipe.isPublished !== true &&
-    newRecipe.isPublished !== false
-  ) {
-    missingFileds += 'isPublished,'
+  if (newRecipe.isPublished !== true && newRecipe.isPublished !== false) {
+    missingFields += "isPublished";
   }
 
   if (!newRecipe.publishDate) {
-    missingFileds += 'publishDate,'
+    missingFields += "publishDate";
   }
 
-  if (
-    !newRecipe.ingredients ||
-    newRecipe.ingredients.length === 0
-  ) {
-    missingFileds += 'ingredients,'
+  if (!newRecipe.ingredients || newRecipe.ingredients.length === 0) {
+    missingFields += "ingredients";
   }
 
-  if (newRecipe.imageUrl) {
-    missingFileds += 'imageUrl,'
+  if (!newRecipe.imageUrl) {
+    missingFields += "imageUrl";
   }
 
-  return missingFileds
-}
+  return missingFields;
+};
 
 const sanitizeRecipePostPut = (newRecipe) => {
-  const recipe = {}
+  const recipe = {};
 
-  recipe.name = newRecipe.name
-  recipe.category = newRecipe.category
-  recipe.directions = newRecipe.directions
-  recipe.publishDate = new Date(
-    newRecipe.publishDate * 1000,
-  )
-  recipe.isPublished = newRecipe.isPublished
-  recipe.ingredients = newRecipe.ingredients
-  recipe.imageUrl = newRecipe.imageUrl
+  recipe.name = newRecipe.name;
+  recipe.category = newRecipe.category;
+  recipe.directions = newRecipe.directions;
+  recipe.publishDate = new Date(newRecipe.publishDate * 1000);
+  recipe.isPublished = newRecipe.isPublished;
+  recipe.ingredients = newRecipe.ingredients;
+  recipe.imageUrl = newRecipe.imageUrl;
 
-  return recipe
-}
+  return recipe;
+};
 
 module.exports = {
   authorizeUser,
   validateRecipePostPut,
   sanitizeRecipePostPut,
-}
+};
