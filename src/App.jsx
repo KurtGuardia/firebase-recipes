@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 import FirebaseAuthService from './FirebaseAuthService';
 import LoginForm from './components/LoginForm';
 import AddEditRecipeForm from './components/AddEditRecipeForm';
@@ -160,8 +160,8 @@ function App() {
   function handleRecipesPerPageChange(event) {
     const recipesPerPage = event.target.value;
 
-    setRecipes([]);
-    setRecipesPerPage(recipesPerPage);
+    startTransition(() => setRecipes([]))
+    startTransition(() => setRecipesPerPage(recipesPerPage))
   }
 
   function handleLoadMoreRecipesClick() {
@@ -280,12 +280,11 @@ function App() {
   }
 
   function formatDate(date) {
-    const day = date.getUTCDate();
-    const month = date.getUTCMonth() + 1;
-    const year = date.getFullYear();
-    const dateString = `${month}-${day}-${year}`;
-
-    return dateString;
+    return date.toLocaleDateString(undefined, {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    })
   }
 
   return (
@@ -300,7 +299,11 @@ function App() {
             Category:
             <select
               value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
+              onChange={(e) =>
+                startTransition(() =>
+                  setCategoryFilter(e.target.value),
+                )
+              }
               className="select"
               required
             >
@@ -319,7 +322,11 @@ function App() {
           <label className="input-label">
             <select
               value={orderBy}
-              onChange={(e) => setOrderBy(e.target.value)}
+              onChange={(e) =>
+                startTransition(() =>
+                  setOrderBy(e.target.value),
+                )
+              }
               className="select"
             >
               <option value="publishDateDesc">

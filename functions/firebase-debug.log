@@ -1,0 +1,78 @@
+[debug] [2024-07-16T13:00:43.962Z] ----------------------------------------------------------------------
+[debug] [2024-07-16T13:00:43.964Z] Command:       /home/kurt/.nvm/versions/node/v22.0.0/bin/node /home/kurt/.nvm/versions/node/v22.0.0/bin/firebase functions:shell
+[debug] [2024-07-16T13:00:43.964Z] CLI Version:   13.13.0
+[debug] [2024-07-16T13:00:43.964Z] Platform:      linux
+[debug] [2024-07-16T13:00:43.964Z] Node Version:  v22.0.0
+[debug] [2024-07-16T13:00:43.964Z] Time:          Tue Jul 16 2024 15:00:43 GMT+0200 (Central European Summer Time)
+[debug] [2024-07-16T13:00:43.964Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-07-16T13:00:43.966Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-07-16T13:00:44.017Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-07-16T13:00:44.017Z] > authorizing via signed-in user (kurtguardia@gmail.com)
+[debug] [2024-07-16T13:00:44.017Z] [iam] checking project fir-recipes-83d12 for permissions ["firebase.projects.get"]
+[debug] [2024-07-16T13:00:44.017Z] > refreshing access token with scopes: []
+[debug] [2024-07-16T13:00:44.018Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-07-16T13:00:44.018Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-07-16T13:00:44.209Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-07-16T13:00:44.209Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-07-16T13:00:44.235Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-recipes-83d12:testIamPermissions [none]
+[debug] [2024-07-16T13:00:44.235Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-recipes-83d12:testIamPermissions x-goog-quota-user=projects/fir-recipes-83d12
+[debug] [2024-07-16T13:00:44.235Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-recipes-83d12:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2024-07-16T13:00:44.307Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-07-16T13:00:44.307Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2024-07-16T13:00:45.008Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-recipes-83d12:testIamPermissions 200
+[debug] [2024-07-16T13:00:45.008Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/fir-recipes-83d12:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2024-07-16T13:00:45.013Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-07-16T13:00:45.014Z] defaultcredentials: writing to file /home/kurt/.config/firebase/kurtguardia_gmail_com_application_default_credentials.json
+[debug] [2024-07-16T13:00:45.016Z] DEBUG: Setting GAC to /home/kurt/.config/firebase/kurtguardia_gmail_com_application_default_credentials.json
+[debug] [2024-07-16T13:00:45.017Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fir-recipes-83d12/adminSdkConfig [none]
+[debug] [2024-07-16T13:00:45.715Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fir-recipes-83d12/adminSdkConfig 200
+[debug] [2024-07-16T13:00:45.716Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fir-recipes-83d12/adminSdkConfig {"projectId":"fir-recipes-83d12","storageBucket":"fir-recipes-83d12.appspot.com","locationId":"europe-west"}
+[debug] [2024-07-16T13:00:45.744Z] [functions] Watching "/home/kurt/Documents/Kurt/Estudio/firebase-recipes-web-app/functions" for Cloud Functions...
+[debug] [2024-07-16T13:00:45.748Z] Validating nodejs source
+[debug] [2024-07-16T13:00:46.188Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.1.0",
+    "firebase-functions": "^5.0.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2024-07-16T13:00:46.188Z] Building nodejs source
+[debug] [2024-07-16T13:00:46.188Z] Failed to find version of module node: reached end of search path /home/kurt/Documents/Kurt/Estudio/firebase-recipes-web-app/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "18" doesn't match your global version "22". Using node@22 from host. 
+[debug] [2024-07-16T13:00:46.190Z] Could not find functions.yaml. Must use http discovery
+[debug] [2024-07-16T13:00:46.191Z] Found firebase-functions binary at '/home/kurt/Documents/Kurt/Estudio/firebase-recipes-web-app/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8308
+
+[info] SERVER STARTED!
+
+[error] (node:44643) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[info] api started
+
+[debug] [2024-07-16T13:00:46.522Z] Got response from /__/functions.yaml {"endpoints":{"api":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"api"},"onCreateRecipe":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.create","eventFilters":{"resource":"projects/fir-recipes-83d12/databases/(default)/documents/recipes/{recipeId}"},"retry":false},"labels":{},"entryPoint":"onCreateRecipe"},"onUpdateRecipe":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.update","eventFilters":{"resource":"projects/fir-recipes-83d12/databases/(default)/documents/recipes/{recipeId}"},"retry":false},"labels":{},"entryPoint":"onUpdateRecipe"},"onDeleteRecipe":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"eventTrigger":{"eventType":"providers/cloud.firestore/eventTypes/document.delete","eventFilters":{"resource":"projects/fir-recipes-83d12/databases/(default)/documents/recipes/{recipeId}"},"retry":false},"labels":{},"entryPoint":"onDeleteRecipe"},"dailyCheckRecipePublishDate":{"platform":"gcfv1","availableMemoryMb":256,"timeoutSeconds":300,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"scheduleTrigger":{"schedule":"0 0 * * *","retryConfig":{"retryCount":null,"maxDoublings":null,"maxRetryDuration":null,"maxBackoffDuration":null,"minBackoffDuration":null},"timeZone":null},"labels":{},"entryPoint":"dailyCheckRecipePublishDate"}},"specVersion":"v1alpha1","requiredAPIs":[{"api":"cloudscheduler.googleapis.com","reason":"Needed for scheduled functions."}]}
+[debug] [2024-07-16T13:00:56.540Z] [functions] Loaded functions definitions from source: api, onCreateRecipe, onUpdateRecipe, onDeleteRecipe, dailyCheckRecipePublishDate.
+[debug] [2024-07-16T13:00:56.542Z] [functions[us-central1-api]] http function initialized (http://127.0.0.1:5001/fir-recipes-83d12/us-central1/api).
+[debug] [2024-07-16T13:00:56.542Z] [functions[us-central1-onCreateRecipe]] function ignored because the firestore emulator does not exist or is not running.
+[debug] [2024-07-16T13:00:56.542Z] [functions[us-central1-onUpdateRecipe]] function ignored because the firestore emulator does not exist or is not running.
+[debug] [2024-07-16T13:00:56.542Z] [functions[us-central1-onDeleteRecipe]] function ignored because the firestore emulator does not exist or is not running.
+[debug] [2024-07-16T13:00:56.543Z] [functions[us-central1-dailyCheckRecipePublishDate]] function ignored because the pubsub emulator does not exist or is not running.
+[info] i  functions: Loaded functions: api, onCreateRecipe, onUpdateRecipe, onDeleteRecipe, dailyCheckRecipePublishDate 
+[warn] ⚠  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage, eventarc 

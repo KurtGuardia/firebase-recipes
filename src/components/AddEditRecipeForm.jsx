@@ -9,6 +9,16 @@ function AddEditRecipeForm({
   handleDeleteRecipe,
   handleEditRecipeCancel,
 }) {
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [publishDate, setPublishDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [directions, setDirections] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [ingredientName, setIngredientName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
   useEffect(() => {
     if (existingRecipe) {
       setName(existingRecipe.name);
@@ -22,15 +32,6 @@ function AddEditRecipeForm({
     }
   }, [existingRecipe]);
 
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [publishDate, setPublishDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
-  const [directions, setDirections] = useState("");
-  const [ingredients, setIngredients] = useState([]);
-  const [ingredientName, setIngredientName] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
 
   function handleRecipeFormSubmit(e) {
     e.preventDefault();
