@@ -10,9 +10,11 @@ function App() {
   const [currentRecipe, setCurrentRecipe] = useState(null)
   const [recipes, setRecipes] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [categoryFilter, setCategoryFilter] = useState('')
+  const [orderBy, setOrderBy] = useState('publicDateDesc')
 
   useEffect(() => {
-setIsLoading(true)
+    setIsLoading(true)
 
     fetchRecipes()
       .then((fetchedRecipes) => {
@@ -21,15 +23,24 @@ setIsLoading(true)
       .catch((error) => {
         console.error(error.message)
         throw error
-      }).finally(() => {
+      })
+      .finally(() => {
         setIsLoading(false)
       })
-  }, [user])
+  }, [user, categoryFilter, orderBy])
 
   FirebaseAuthService.subscribeToAuthChanges(setUser)
 
   async function fetchRecipes() {
     const queries = []
+
+    if (categoryFilter) {
+      queries.push({
+        field: 'category',
+        condition: '==',
+        value: categoryFilter,
+      })
+    }
 
     if (!user) {
       queries.push({
@@ -39,6 +50,22 @@ setIsLoading(true)
       })
     }
 
+    const orderByField = 'publishDate'
+    let orderByDirection
+
+    if (orderBy) {
+      switch (orderBy) {
+        case 'publishDateAsc':
+          orderByDirection = 'asc'
+          break
+        case 'publishDateDesc':
+          orderByDirection = 'desc'
+          break
+        default:
+          break
+      }
+    }
+
     let fetchedRecipes = []
 
     try {
@@ -46,6 +73,8 @@ setIsLoading(true)
         await FirebaseFirestoreService.readDocuments({
           collection: 'recipes',
           queries: queries,
+          orderByField: orderByField,
+          orderByDirection: orderByDirection,
         })
 
       const newRecipes = response.docs.map((recipeDoc) => {
@@ -191,6 +220,54 @@ setIsLoading(true)
         <LoginForm existingUser={user} />
       </div>
       <div className='main'>
+        <div className='row filters'>
+          <label className='recipe-label input-label'>
+            Category:
+            <select
+              value={categoryFilter}
+              onChange={(e) =>
+                startTransition(() =>
+                  setCategoryFilter(e.target.value),
+                )
+              }
+              className='select'
+              required
+            >
+              <option value=''></option>
+              <option value='breadsSanwichAndPizza'>
+                Breads, Sandwiches, and Pizzas
+              </option>
+              <option value='eggsAndBreakfast'>
+                Eggs & Breakfast
+              </option>
+              <option value='desertsAndBakeGoods'>
+                Desserts & Bake Goods
+              </option>
+              <option value='fishAndSeafood'>
+                Fish & Seafood
+              </option>
+              <option value='vegetables'>Vegetables</option>
+            </select>
+          </label>
+          <label className='input-label'>
+            <select
+              value={orderBy}
+              onChange={(e) =>
+                startTransition(() =>
+                  setOrderBy(e.target.value),
+                )
+              }
+              className='select'
+            >
+              <option value='publishDateDesc'>
+                Publish Date (newest - oldest)
+              </option>
+              <option value='publishDateAsc'>
+                Publish Date (oldest - newest)
+              </option>
+            </select>
+          </label>
+        </div>
         <div className='center'>
           <div className='recipe-list-box'>
             {isLoading && (
@@ -207,11 +284,11 @@ setIsLoading(true)
             {!isLoading &&
               recipes &&
               recipes.length === 0 && (
-                <h className='no-recipes'>
+                <h5 className='no-recipes'>
                   No Recipes Found bro
-                </h>
+                </h5>
               )}
-            {!isLoading &&recipes && recipes.length > 0 ? (
+            {!isLoading && recipes && recipes.length > 0 ? (
               <div className='recipe-list'>
                 {recipes.map((recipe) => {
                   return (
