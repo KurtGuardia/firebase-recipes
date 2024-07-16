@@ -256,13 +256,17 @@ function App() {
     });
 
     if (selectedRecipe) {
-      setCurrentRecipe(selectedRecipe);
-      window.scrollTo(0, document.body.scrollHeight);
+      startTransition(() => {
+        setCurrentRecipe(selectedRecipe)
+      })
+      window.scrollTo(0, document.body.scrollHeight)
     }
   }
 
   function handleEditRecipeCancel() {
-    setCurrentRecipe(null);
+    startTransition(() => {
+      setCurrentRecipe(null)
+    })
   }
 
   function lookupCategoryLabel(categoryKey) {
