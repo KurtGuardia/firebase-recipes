@@ -256,13 +256,15 @@ function App() {
     });
 
     if (selectedRecipe) {
-      setCurrentRecipe(selectedRecipe);
-      window.scrollTo(0, document.body.scrollHeight);
+      startTransition(() => {
+        setCurrentRecipe(selectedRecipe)
+      })
+      window.scrollTo(0, document.body.scrollHeight)
     }
   }
 
   function handleEditRecipeCancel() {
-    setCurrentRecipe(null);
+    startTransition(() => setCurrentRecipe(null));
   }
 
   function lookupCategoryLabel(categoryKey) {
@@ -424,7 +426,7 @@ function App() {
                       : 'primary-button'
                   }
                   type="button"
-                  onClick={() => setCurrentPageNumber(currentPageNumber - 1)}
+                  onClick={() => startTransition(() => setCurrentPageNumber(currentPageNumber - 1))}
                 >
                   Previous
                 </button>
@@ -434,7 +436,7 @@ function App() {
                     isLastPage ? 'primary-button hidden' : 'primary-button'
                   }
                   type="button"
-                  onClick={() => setCurrentPageNumber(currentPageNumber + 1)}
+                  onClick={() => startTransition(() => setCurrentPageNumber(currentPageNumber + 1))}
                 >
                   Next
                 </button>
@@ -453,7 +455,7 @@ function App() {
                                 ? 'selected-page primary-button page-button'
                                 : 'primary-button page-button'
                             }
-                            onClick={() => setCurrentPageNumber(index + 1)}
+                            onClick={() => startTransition(() => setCurrentPageNumber(index + 1))}
                           >
                             {index + 1}
                           </button>
