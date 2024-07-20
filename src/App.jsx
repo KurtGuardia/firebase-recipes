@@ -164,11 +164,11 @@ function App() {
     startTransition(() => setRecipesPerPage(recipesPerPage))
   }
 
-  function handleLoadMoreRecipesClick() {
-    const lastRecipe = recipes[recipes.length - 1];
-    const cursorId = lastRecipe.id;
+  // function handleLoadMoreRecipesClick() {
+  //   const lastRecipe = recipes[recipes.length - 1];
+  //   const cursorId = lastRecipe.id;
 
-    handleFetchRecipes(cursorId);
+  //   handleFetchRecipes(cursorId);
   }
 
   async function handleFetchRecipes(cursorId = '') {
